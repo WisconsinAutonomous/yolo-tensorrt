@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 3.1)
 project(yolo-trt VERSION 1.0)            
 enable_language(CUDA)
 
-set(CMAKE_CXX_COMPILIER "/usr/bin/g++")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -O3 -Wno-write-strings")
+set(CMAKE_CXX_COMPILIER "/usr/bin/g++-8")
+set(CMAKE_C_COMPILIER "/usr/bin/gcc-8")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -O3 -Wno-write-strings -Wno-unused-variable -Wno-unused-parameter -Wno-unused-function")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath -Wl,$ORIGIN")
 
 #cuda
@@ -16,16 +17,24 @@ find_package(CUDA REQUIRED)
 #set(OpenCV_DIR /opt/opencv-4.1.2/share/OpenCV)
 find_package(OpenCV REQUIRED)
 
+include_directories(extra)
+
 #detector lib (cuda)
 file(GLOB_RECURSE sources modules/*.hpp modules/*.cpp modules/*.h modules/*.cu extra/*.h)
-add_library(detector SHARED ${sources})
-target_include_directories(detector PRIVATE extra/ modules/ ${OpenCV_INCLUDE_DIRS} ${CUDA_TOOLKIT_ROOT_DIR}/include)
-target_link_libraries(detector nvinfer nvinfer_plugin nvparsers "stdc++fs")
+add_library(yolov5_tensorrt SHARED ${sources})
+target_include_directories(yolov5_tensorrt PRIVATE extra/ modules/ ${OpenCV_INCLUDE_DIRS} ${CUDA_TOOLKIT_ROOT_DIR}/include)
+target_link_libraries(yolov5_tensorrt nvinfer nvinfer_plugin nvparsers "stdc++fs")
+
+install(TARGETS yolov5_tensorrt
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
 
 #sample
 add_executable(yolo-trt samples/sample_detector.cpp)				  
 target_include_directories(yolo-trt PRIVATE modules/ extra/)
-target_link_libraries(yolo-trt detector ${OpenCV_LIBS})
+target_link_libraries(yolo-trt yolov5_tensorrt ${OpenCV_LIBS})
 
 
 

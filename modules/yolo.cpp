@@ -52,7 +52,7 @@ Yolo::Yolo( const NetworkInfo& networkInfo, const InferParams& inferParams) :
 	{
 		parseConfigBlocks();
 	}
-	m_EnginePath = networkInfo.data_path + "-" + m_Precision + "-batch" + std::to_string(m_BatchSize) + ".engine";
+	m_EnginePath = networkInfo.data_path + "-" + m_Precision + "-batch" + std::to_string(m_BatchSize) + "-" + std::to_string(m_InputH) + "x" + std::to_string(m_InputW) + "x" + std::to_string(m_InputC) + ".engine";
 	if (m_Precision == "kFLOAT")
 	{
 		if ("yolov5" == m_NetworkType)
