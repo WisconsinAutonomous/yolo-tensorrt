@@ -32,15 +32,14 @@ SOFTWARE.
 #include "yolo.h"
 
 //#ifdef __cplusplus
-//extern "C" {
+// extern "C" {
 //#endif
 
 #define MAX_OBJECTS_PER_FRAME 32
 typedef struct YoloPluginCtx YoloPluginCtx;
 typedef struct YoloPluginOutput YoloPluginOutput;
 // Init parameters structure as input, required for instantiating yoloplugin_lib
-typedef struct
-{
+typedef struct {
     // Width at which frame/object will be scaled
     int processingWidth;
     // height at which frame/object will be scaled
@@ -51,8 +50,7 @@ typedef struct
     std::string configFilePath;
 } YoloPluginInitParams;
 
-struct YoloPluginCtx
-{
+struct YoloPluginCtx {
     YoloPluginInitParams initParams;
     NetworkInfo networkInfo;
     InferParams inferParams;
@@ -65,8 +63,7 @@ struct YoloPluginCtx
 };
 
 // Detected/Labelled object structure, stores bounding box info along with label
-typedef struct
-{
+typedef struct {
     int left;
     int top;
     int width;
@@ -75,8 +72,7 @@ typedef struct
 } YoloPluginObject;
 
 // Output data returned after processing
-struct YoloPluginOutput
-{
+struct YoloPluginOutput {
     int numObjects;
     YoloPluginObject object[MAX_OBJECTS_PER_FRAME];
 };
