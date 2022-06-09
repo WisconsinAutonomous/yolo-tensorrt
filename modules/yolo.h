@@ -102,7 +102,7 @@ public:
     std::string getNetworkType() const { return m_NetworkType; }
     float getNMSThresh() const { return m_NMSThresh; }
     std::string getClassName(const int& label) const { return m_ClassNames.at(label); }
-    int getClassId(const int& label) const { return m_ClassIds.at(label); }
+    int getClassId(const int& label) const { return label + 1; }
     uint32_t getInputH() const { return m_InputH; }
     uint32_t getInputW() const { return m_InputW; }
     uint32_t getNumClasses() const { return static_cast<uint32_t>(m_ClassNames.size()); }

@@ -25,7 +25,11 @@ target_link_libraries(detector nvinfer nvinfer_plugin nvparsers "stdc++fs")
 #sample
 add_executable(yolo-trt samples/sample_detector.cpp)				  
 target_include_directories(yolo-trt PRIVATE modules/ extra/)
+<<<<<<< Updated upstream
 target_link_libraries(yolo-trt detector ${OpenCV_LIBS})
+=======
+target_link_libraries(yolo-trt yolov5_tensorrt ${OpenCV_LIBS} ${OpenCV_LIBRARIES})
+>>>>>>> Stashed changes
 
 
 
